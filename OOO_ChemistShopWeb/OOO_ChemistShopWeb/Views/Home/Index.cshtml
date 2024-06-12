@@ -1,0 +1,217 @@
+﻿@model OOO_ChemistShopWeb.ViewModels.ModelMedicines.MedicinesViewModelStart
+
+
+@{
+    ViewBag.Title = "Главная страница";
+}
+
+<!doctype html>
+<html>
+<head>
+
+</head>
+
+<body>
+    <div class="parent">
+        <div style="display: flex; justify-content: center; border-radius: 6px; background-color: #182e52; margin: auto ">
+            <img src="~/Images/Баннер.png" style="height: 350px; border-radius: 6px;" />
+            <div  style="margin-top: auto; margin-left: auto; margin-bottom: auto">
+                <img src="~/Images/БаннерДляЛекарства.png" style="height: 350px;" />
+                <a href="@Url.Action("ProductsView", "Home")">
+                    <input type="button" value="Перейти в каталог" class="buttonCatalogStyle" />
+                </a>
+            </div>
+
+        </div>
+        <div style="margin-top: 15px">
+            <a class="title">Новинки</a>
+            <hr style="width: 98.5%; border-width: 2px; margin-left: 11px; border-color: black" />
+            <div class="containerbox">
+
+                @if (Model.Medicines.Count() > 0)
+                {
+                    foreach (var item in Model.Medicines.Where(c => c.MedicineCount != 0).OrderByDescending(x => x.MedicineId).Take(4))
+                    {
+
+                        <div class="card_item" style="margin: 10px 11px; height: 360px; background-color: #f5f7f9; border-radius: 2px; ">
+                            <p style="margin-top: 10px; margin-right: 15px; text-align: right;">⭐ @item.MedicineRank</p>
+                            <div class="img-container">
+                                <a href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                    <center>
+                                        @if (!String.IsNullOrEmpty(item.MedicinePhoto))
+                                        {
+                                            <img src="/Images/@item.MedicinePhoto" class="card-img-top rounded"
+                                                 style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/Images/Pictures.png" class="card-img-top rounded"
+                                                 style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                        }
+                                    </center>
+                                </a>
+                                <h5 style="text-align: left; margin-left: 10px; margin-top: 20px; font-family: 'Times New Roman', Times, serif">
+                                    <a class="linkMedicine" href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                        @item.MedicineName
+                                    </a>
+                                    <s style="float: right; margin-right: 10px; color: gray; font-size: 12pt">
+                                        @String.Format("{0:f2}", item.MedicineCost) ₽
+                                    </s>
+                                    <a style="float: right; margin-right: 10px">
+                                        @String.Format("{0:f2}", item.MedicineCost - (item.MedicineCost * item.MedicineDiscount / 100)) ₽
+                                    </a>
+
+
+                                </h5>
+  
+                                    @if (Session["UserLogin"] == null)
+                                    {
+                                        <div style="display: flex; justify-content: center">
+                                            <a href="@Url.Action("UserLogin", "Account")">
+                                                <input type="button" value="В корзину" style="margin-top: 20px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a style="text-decoration: none" href='@Url.Action("OrderList", "ShoppingCartViews", new {id=item.MedicineId})'>
+                                            <div style="display: flex; justify-content: center">
+                                                <input type="button" value="В корзину" style="margin-top: 20px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                            </div>
+                                        </a>
+                                    }
+
+                            </div>
+                        </div>
+
+                    }
+                }
+            </div>
+        </div>
+        <div style="margin-top: 10px">
+            <a class="title">Популярные товары</a>
+            <hr style="width: 98.5%; border-width: 2px; margin-left: 11px; border-color: black" />
+            <div class="inner-right containerbox">
+
+                @if (Model.Medicines.Count() > 0)
+                {
+                    foreach (var item in Model.Medicines.Where(r => r.MedicineRank >= 4 && r.MedicineCount != 0).OrderByDescending(x => x.MedicineRank).Take(4))
+                    {
+                            <div class="card_item" style="margin: 10px 11px; height: 360px; background-color: #f5f7f9; border-radius: 2px; ">
+                                <p style="margin-top: 10px; margin-right: 15px; text-align: right;">⭐ @item.MedicineRank</p>
+                                <div class="img-container">
+                                    <a href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                        <center>
+                                            @if (!String.IsNullOrEmpty(item.MedicinePhoto))
+                                            {
+                                                <img src="/Images/@item.MedicinePhoto" class="card-img-top rounded"
+                                                     style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                            }
+                                            else
+                                            {
+                                                <img src="/Images/Pictures.png" class="card-img-top rounded"
+                                                     style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                            }
+                                        </center>
+                                    </a>
+                                    <h5 style="text-align: left; margin-left: 10px; margin-top: 20px; font-family: 'Times New Roman', Times, serif">
+                                        <a class="linkMedicine" href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                            @item.MedicineName
+                                        </a>
+                                        <s style="float: right; margin-right: 10px; color: gray; font-size: 12pt">
+                                            @String.Format("{0:f2}", item.MedicineCost) ₽
+                                        </s>
+                                        <a style="float: right; margin-right: 10px">
+                                            @String.Format("{0:f2}", item.MedicineCost - (item.MedicineCost * item.MedicineDiscount / 100)) ₽
+                                        </a>
+
+
+                                    </h5>
+
+                                    @if (Session["UserLogin"] == null)
+                                    {
+                                    <div style="display: flex; justify-content: center">
+                                        <a href="@Url.Action("UserLogin", "Account")">
+                                            <input type="button" value="В корзину" style="margin-top: 20px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                        </a>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <a style="text-decoration: none" href='@Url.Action("OrderList", "ShoppingCartViews", new {id=item.MedicineId})'>
+                                        <div style="display: flex; justify-content: center">
+                                            <input type="button" value="В корзину" style="margin-top: 20px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                        </div>
+                                    </a>
+                                    }
+
+                                </div>
+                            </div>
+
+                        }
+                    }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .buttonCatalogStyle {
+        width: 250px;
+        height: 60px;
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-size: 14pt;
+        margin: 10px
+    }
+
+        .buttonCatalogStyle:hover {
+            background-color: #0d6efd;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+    .title {
+        font-size: 16pt;
+        font-weight: bold;
+        text-decoration: none;
+        color: black;
+        margin-left: 10px;
+    }
+
+    .title:hover {
+        color: black;
+    }
+
+
+    .containerbox .card_item {
+        width: 300px;
+        border: 1px solid black;
+        margin-top: 10px
+    }
+
+    .containerbox {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .linkMedicine {
+        color: black;
+        text-decoration: none;
+    }
+
+    .inner-right {
+        flex-grow: 1;
+    }
+    .parent {
+        display: flex;
+        flex-wrap: wrap;
+    }
+</style>

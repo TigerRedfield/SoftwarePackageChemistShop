@@ -1,0 +1,239 @@
+﻿@model OOO_ChemistShopWeb.ViewModels.ModelMedicines.MedicinesViewModel
+@using OOO_ChemistShopWeb.Classes
+@{
+
+    ViewBag.Title = "Товары";
+}
+
+<!doctype html>
+<html>
+<head>
+
+</head>
+
+<body>
+    <div>
+
+        <div class="parent">
+            <div class="col-lg-2 bg-white border-start-1 border-end-1 border-top-1 border-bottom-1 border-3 d-none d-sm-block" style="border: 2px solid black; text-align: center; font-size: 14pt; width: 270px; font-family: 'Times New Roman', Times, serif; ">
+                <p class="text-center" style="margin-top: 10px;"><strong>Поиск по категории</strong></p>
+                <hr />
+                <ul class="navbar-nav flex-grow-1 ">
+                    <li>
+                        @Html.ActionLink("Все лекарства", "ProductsView", "Home", new { category = 0 }, new { @class = "nav-link colortextNav" })
+                    </li>
+
+                    <li><hr /> </li>
+                    @if (Model.Categories.Count() > 0)
+                    {
+                        foreach (var item in Model.Categories)
+                        {
+                            <li> @Html.ActionLink(item.CategoryName, "ProductsView", "Home", new { category = item.CategoryId }, new { @class = "nav-link colortextNav" }) </li>
+                        }
+                    }
+
+                    <li><hr /></li>
+                </ul>
+            </div>
+
+            <div class="inner-right containerbox" style="width: 0;">
+                @if (@Session["CategorySelected"] == null)
+                {
+                    <p style="margin-bottom: 50px"></p>
+                }
+                else
+                {    
+                    <div style="display: flex; justify-content: center; flex-wrap: nowrap; margin-top: 10px; text-align: center; margin-left: auto; width: 980px; font-family: 'Times New Roman', Times, serif; font-size: 20pt ">
+                        <strong> @Session["CategorySelected"]</strong> 
+                    </div>
+                }
+            <div class="inner-right containerbox">
+                @if (Model.Medicines.Count() > 0)
+                {
+                    foreach (var item in Model.Medicines)
+                    {
+                        <div class="card_item" style="margin: 0% 12px 30px 12px; height: 400px; background-color: #f5f7f9; border-radius: 2px; ">
+                            <p style="margin-top: 10px; margin-right: 15px; text-align: right;">⭐ @item.MedicineRank</p>
+                            <div class="img-container">
+                                <a href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                    <center>
+                                        @if (!String.IsNullOrEmpty(item.MedicinePhoto))
+                                        {
+                                            <img src="/Images/@item.MedicinePhoto" class="card-img-top rounded"
+                                                 style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/Images/Pictures.png" class="card-img-top rounded"
+                                                 style="width: auto; height: 150px; max-width: 100%; margin-top: 8px" />
+                                        }
+                                    </center>
+                                </a>
+                                <h5 style="text-align: left; margin-left: 10px; margin-top: 25px; font-family: 'Times New Roman', Times, serif">
+                                    <a class="linkMedicine" href='@Url.Action("Product", "ProductDetails", new { id = item.MedicineId })'>
+                                        @item.MedicineName
+                                    </a>
+                                    <s style="float: right; margin-right: 10px; color: gray; font-size: 12pt">
+                                        @String.Format("{0:f2}", item.MedicineCost) ₽
+                                    </s>
+                                    <a style="float: right; margin-right: 10px">
+                                        @String.Format("{0:f2}", item.MedicineCost - (item.MedicineCost * item.MedicineDiscount / 100)) ₽
+                                    </a>
+
+
+                                </h5>
+                                @if (item.MedicineCount > 0)
+                                {
+                                    if (Session["UserLogin"] == null)
+                                    {
+                                        <div style="display: flex; justify-content: center">
+                                            <a href="@Url.Action("UserLogin", "Account")">
+                                                <input type="button" value="В корзину" style="margin-top: 40px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a style="text-decoration: none" href='@Url.Action("OrderList", "ShoppingCartViews", new {id=item.MedicineId})'>
+                                            <div style="display: flex; justify-content: center">
+                                                <input type="button" value="В корзину" style="margin-top: 40px; margin-bottom: 30px; border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                                            </div>
+                                        </a>
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    <div style="display: flex; justify-content: center; margin-top: 55px; font-size: 16pt"> Нет в наличии </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+
+
+                }
+                else
+                {
+                    if (Model.PageInfo != null)
+                    {
+                        <h2 style="width: 100%;  margin-bottom: auto; text-align: center; ">Товар(ы) не найден(ы)</h2>
+
+                    }
+                    else if (Model.PageInfo == null)
+                    {
+                        <br/>
+                        <h2 style="width: 100%; margin-top: auto; margin-bottom: auto; text-align: center; ">Товар(ы) не найден(ы)</h2>
+                    }
+                    else
+                    {
+                        <h2 style=" width: 100%; margin-top: auto; text-align: center; ">Товар(ы) не найден(ы)</h2>
+                    }
+                }
+
+            </div>
+            </div>
+        </div>
+        @if (Model.PageInfo != null)
+        {
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; margin-left: 285px">
+
+                @Html.PageLinks(Model.PageInfo, x => Url.Action("ProductsView", new {category=@Session["NumberSelected"],  page = x}))
+             
+            </div>
+        }
+        else
+            {
+                <div style=" display: flex; justify-content: center;"> <p></p></div>
+            }
+        </div>
+
+
+
+</body>
+
+</html>
+
+<style>
+
+    .linkMedicine {
+        color: black;
+        text-decoration: none;
+    }
+
+    .parent {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .inner-left {
+        outline: 1px solid #060;
+    }
+
+    .inner-right {
+        margin: 0 0 30px 15px;
+        flex-grow: 1;
+    }
+
+    .containerbox .card_item {
+        width: 300px;
+        border: 1px solid black;
+    }
+
+    .containerbox {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0px 0 0 15px;
+        justify-content: center;
+    }
+
+
+    .colortextNav {
+        text-decoration: none;
+        color: blue;
+    }
+
+        .colortextNav:hover {
+            color: blue;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+    .txtPagination {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        text-align: center;
+        padding: 15px 25px;
+        margin-left: 10px;
+        background-color: #f8f9fa;
+        border-radius: 2px;
+        font-size: 14pt;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+    }
+
+
+        .txtPagination:hover {
+            color: white;
+            background-color: #40b0fe;
+        }
+
+
+    .txtSelectNum {
+        color: white;
+        background-color: blue;
+    }
+
+        .txtSelectNum:hover {
+            color: white;
+            background-color: blue;
+        }
+</style>
+
+<script>
+
+
+</script>

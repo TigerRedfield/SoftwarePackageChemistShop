@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOO_ChemistShopWeb", "OOO_ChemistShopWeb\OOO_ChemistShopWeb.csproj", "{90F02729-F75D-4123-ADCE-0713149E4276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOO_ChemistShopWeb.Tests", "OOO_ChemistShopWeb.Tests\OOO_ChemistShopWeb.Tests.csproj", "{F7BCE781-8946-43CD-9992-1F6B06225C56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90F02729-F75D-4123-ADCE-0713149E4276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F02729-F75D-4123-ADCE-0713149E4276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F02729-F75D-4123-ADCE-0713149E4276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F02729-F75D-4123-ADCE-0713149E4276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7BCE781-8946-43CD-9992-1F6B06225C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7BCE781-8946-43CD-9992-1F6B06225C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7BCE781-8946-43CD-9992-1F6B06225C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7BCE781-8946-43CD-9992-1F6B06225C56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D31DB04-3017-48BE-BB7B-A2A9936427DD}
+	EndGlobalSection
+EndGlobal

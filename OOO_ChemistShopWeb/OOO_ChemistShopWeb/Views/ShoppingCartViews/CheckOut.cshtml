@@ -1,0 +1,205 @@
+﻿@using OOO_ChemistShopWeb.Models;
+
+@{
+    ViewBag.Title = "Оформление заказа";
+}
+
+<strong style="font-family: 'Times New Roman', Times, serif; font-size: 18pt">@Html.ActionLink("Корзина", "ShoppingCart", "ShoppingCartViews", new { @class = "NavigationCheckOut" })  <a style="font-size: 16pt;">>></a> <a style="color: blue">Оформление заказа</a></strong>
+<hr />
+@{
+    if (Session["Cart"] != null)
+    {
+        <div class="parent">
+            <table style="font-size: 16pt; font-family: 'Times New Roman', Times, serif" class="shopping-cart inner-left">
+                <tr style="text-align: center">
+                    <th width="150px">Изображение</th>
+                    <th width="150px">Название</th>
+                    <th width="130px">Цена</th>
+                    <th width="125px">Количество</th>
+                    <th colspan="2" width="150px">Общая цена <br />товара</th>
+                </tr>
+
+                @foreach (var cart in (List<OOO_ChemistShopWeb.Classes.ProductsInOrder>)Session["Cart"])
+                {
+                    <tr style="text-align: center">
+                        <td>
+                            @if (!String.IsNullOrEmpty(cart.Medicine.MedicinePhoto))
+                            {
+                                <img src="/Images/@cart.Medicine.MedicinePhoto" class="card-img-top rounded"
+                                     style="width: auto; height: 80px; max-width: 100%; margin-top: 5px" />
+                            }
+                            else
+                            {
+                                <img src="/Images/Pictures.png" class="card-img-top rounded"
+                                     style="width: auto; height: 80px; max-width: 100%; margin-top: 5px" />
+                            }
+
+                        </td>
+                        <td>@cart.Medicine.MedicineName</td>
+                        <td>@(String.Format("{0:f2}", cart.Medicine.MedicineCost)) ₽</td>
+                        <td>
+                            @cart.MedicineCountOrder
+                        </td>
+                        <td width="150px">@(String.Format("{0:f2}", cart.Medicine.MedicineCost * cart.MedicineCountOrder)) ₽</td>
+                    </tr>
+                }
+            </table>
+            <div class="inner-right" style="height: 300px; margin: 0 0 0 15px">
+                @{
+                    List<OOO_ChemistShopWeb.Classes.ProductsInOrder> temp = (List<OOO_ChemistShopWeb.Classes.ProductsInOrder>)Session["Cart"];
+                    var totalSum = String.Format("{0:f2}", temp.Sum(x => x.MedicineCountOrder * x.Medicine.MedicineCost));
+                    var totalDiscount = String.Format("{0:f2}", temp.Sum(x => x.Medicine.MedicineCost * x.MedicineCountOrder - (x.Medicine.MedicineCost * x.Medicine.MedicineDiscount * x.MedicineCountOrder / 100)));
+                    var Discount = String.Format("{0:f2}", temp.Sum(x => x.Medicine.MedicineCost * x.Medicine.MedicineDiscount * x.MedicineCountOrder / 100));
+
+                }
+
+                <div class="blocks">
+                    <div class="blocks price">
+                        <div>
+                            <a>Сумма заказа без скидки: </a>
+                            <a> @totalSum ₽ </a>
+                        </div>
+
+                        <div>
+                            <a>Сумма заказа со скидкой: </a>
+                            <a> @totalDiscount ₽ </a>
+                        </div>
+
+                        <div>
+                            <a>Сумма скидки заказа: </a>
+                            <a> @Discount ₽ </a>
+                        </div>
+                    </div>
+                    <div style="display: flex;">
+
+                        @using (Html.BeginForm("ProcessOrder", "ShoppingCartViews", FormMethod.Post))
+                        {
+                            <div style="display: grid">
+                                <a style="margin-top: 10px; margin-left: 13px; font-family: 'Times New Roman', Times, serif; font-size: 14pt">Пункт выдачи: </a>
+                                <a>
+                                    @Html.DropDownList("OrderPointId", new SelectList(ViewBag.PointsId as System.Collections.IEnumerable, "PointId", "PointAddress"), new { style = "height: 40px; width: 450px; margin-left: 13px; background-color: white;" })
+                                    <input type="submit" value="Оформить заказ" style=" margin-left: 10px; color: white; width: 250px" class="checkout-shopping" />
+                                </a>
+                            </div>
+
+                        }
+                    </div>
+                    <div style="display: flex; justify-content: center;">
+                    </div>
+                    <div style="display: flex; justify-content: center;">
+                        @Html.ActionLink("Продолжить покупки", "ProductsView", "Home", null, new { @class = "continue-shopping", style = "width: 300px; margin-top: 30px" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h2 style="margin: auto">К сожалению, в корзине отсуствуют товары :(</h2>
+    }
+
+}
+
+<style>
+
+    .shopping-cart table, th, td {
+        border: 1px solid black;
+    }
+
+    .shopping-cart #quantity {
+        width: 90%;
+        border: 1px solid #808080;
+        border-radius: 2px;
+        text-align: center;
+    }
+
+    .shopping-cart .delete-shopping {
+        color: black;
+        border: 1px solid black;
+        background-color: whitesmoke;
+        border-radius: 2px;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+        .shopping-cart .delete-shopping:hover {
+            color: white;
+            background-color: red;
+            text-decoration: underline;
+        }
+
+    .shopping-cart .total-price-text {
+        text-transform: uppercase;
+        color: red;
+        font-weight: bold;
+    }
+
+    .shopping-cart .total-price-digit {
+        color: red;
+        font-weight: bold;
+    }
+
+    .parent {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .inner-left {
+        outline: 1px solid #060;
+    }
+
+    .inner-right {
+        flex-grow: 1;
+        background-color: #f5f6fc;
+        border-radius: 2px;
+    }
+
+    .blocks {
+        display: grid;
+        margin-top: 10px;
+    }
+
+        .blocks.price {
+            font-size: 16pt;
+            font-family: 'Times New Roman', Times, serif;
+            margin-left: 14px;
+        }
+
+    .checkout-shopping {
+        background-color: #40b0fe;
+        padding: 10px;
+        color: white;
+        border: 1px solid black;
+        border-radius: 2px;
+        text-align: center;
+    }
+
+        .checkout-shopping:hover {
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */
+        }
+
+
+
+    .continue-shopping {
+        text-decoration: none;
+        background-color: transparent;
+        padding: 10px;
+        color: black;
+        border: 1px solid black;
+        border-radius: 2px;
+        text-align: center;
+    }
+
+        .continue-shopping:hover {
+            text-decoration: none;
+            background-color: green;
+            padding: 10px;
+            color: white;
+        }
+
+    .NavigationCheckOut {
+        text-decoration: none;
+        color: black
+    }
+</style>

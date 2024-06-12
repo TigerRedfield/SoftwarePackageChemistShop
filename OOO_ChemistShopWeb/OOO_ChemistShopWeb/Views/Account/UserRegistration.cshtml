@@ -1,0 +1,94 @@
+﻿@model OOO_ChemistShopWeb.ViewModels.ModelUserRegistration
+
+@{
+    ViewBag.Title = "Регистрация";
+}
+
+
+
+<fieldset style="font-family: 'Times New Roman'; font-size: 14pt">
+
+    <h2 style="display: flex; justify-content: center">Регистрация</h2>
+    <hr />
+
+    @using (Html.BeginForm("UserRegistration", "Account", FormMethod.Post))
+    {
+
+        <div style="display: flex; justify-content: center; margin-top: 30px">
+
+
+            <div style="display: grid;">
+
+                @Html.AntiForgeryToken()
+
+                @Html.LabelFor(m => m.UserFullName)
+                @Html.TextBoxFor(m => m.UserFullName, new { @style = "width:300px" })
+                @Html.ValidationMessageFor(m => m.UserFullName, null, new { @class = "text text-danger" })
+                <p style="margin-bottom: 10px"></p>
+
+                @Html.LabelFor(m => m.UserLogin)
+                @Html.TextBoxFor(m => m.UserLogin)
+                @Html.ValidationMessageFor(m => m.UserLogin, null, new { @class = "text text-danger" })
+                <p style="margin-bottom: 10px"></p>
+
+                @Html.LabelFor(m => m.UserPassword)
+                @Html.TextBoxFor(m => m.UserPassword, null, new { @type = "password", @id = "typepass" })
+                @Html.ValidationMessageFor(m => m.UserPassword, null, new { @class = "text text-danger" })
+                <a style="margin-top: 10px"> @Html.CheckBox("Показать пароль", new { @onclick = "ShowPassword()", @id = "showpass" }) Показать пароль </a>
+                <p style="margin-bottom: 10px"></p>
+
+
+                @Html.LabelFor(m => m.UserPasswordVerif)
+                @Html.TextBoxFor(m => m.UserPasswordVerif, null, new { @type = "password", @id = "typepassverif" })
+                @Html.ValidationMessageFor(m => m.UserPasswordVerif, null, new { @class = "text text-danger" })
+                <a style="margin-top: 10px"> @Html.CheckBox("Показать пароль", new { @onclick = "ShowVerifPassword()", @id = "showpassverif" }) Показать пароль </a>
+                <p style="margin-bottom: 20px"></p>
+
+                <input type="submit" value="Сохранить" style="border-radius: 4px; font-size: 20pt; font-size: 20pt;" class="buttonAuthoReg" />
+
+                <p style="margin-bottom: 10px; margin-top: 15px; text-align: center"><a>Есть аккаунт?</a> <a style="text-decoration: none" href="@Url.Action("UserLogin", "Account")">Войти</a></p>
+            </div>
+
+        </div>
+    }
+
+    <div style="text-align: center">
+        @Html.ValidationMessage("Ошибка", null, new { @class = "text text-danger" })
+    </div>
+</fieldset>
+
+<style>
+    .bg-color {
+        background-color: #374462;
+    }
+
+    .colortext {
+        color: white;
+    }
+</style>
+
+<script>
+    // Change the type of input to password or text
+    function ShowPassword() {
+        let temp = document.getElementById("typepass");
+        let temp2 = document.getElementById("showpass");
+        if (temp2.checked == false) {
+            temp.type = "password";
+        }
+        else if (temp2.checked == true) {
+            temp.type = "text";
+        }
+    }
+
+    // Change the type of input to password or text
+    function ShowVerifPassword() {
+        let temp = document.getElementById("typepassverif");
+        let temp2 = document.getElementById("showpassverif");
+        if (temp2.checked == false) {
+            temp.type = "password";
+        }
+        else if (temp2.checked == true) {
+            temp.type = "text";
+        }
+    }
+</script>

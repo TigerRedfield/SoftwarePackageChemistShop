@@ -1,0 +1,89 @@
+﻿<Window x:Class="OOO_ChemistShop.View.WorkUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOO_ChemistShop.View"
+        mc:Ignorable="d"
+           Title="ООО &quot;Медфарм&quot;" Height="600" Width="1280" MinHeight="600" MinWidth="1280" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.23*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.05*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#374462">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="0.15*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="txtUserId" Text="{Binding SelectedItem.UserId, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" HorizontalAlignment="Left" Visibility="Hidden" IsEnabled="False"/>
+
+            <TextBlock x:Name="tbTitle" Text="Работа с пользователями" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource TxtTitle}"/>
+            <Button x:Name="ButtonExit" Background="White" Grid.Column="4" Grid.ColumnSpan="2" Margin="20" Click="ButtonExit_Click">
+                <StackPanel>
+                    <TextBlock Text="Назад" Style="{StaticResource TxtButton}" Foreground="Black"/>
+                </StackPanel>
+            </Button>
+            <Image Source="/Resources/medicine.png" Grid.Column="0" Margin="20" Grid.ColumnSpan="2"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Отображение данных для работы с пользователями-->
+            <DataGrid x:Name="DataGridUsers" IsReadOnly="True" Background="{x:Null}" GridLinesVisibility="All"  DisplayMemberPath="UserFullName" SelectedValuePath="UserId"  CanUserResizeColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" Margin="10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="Код пользователя" Binding="{Binding UserId}" Width="1*"/>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="Код роли пользователя" Binding="{Binding Users.UserRoleId}"  Width="1*" Visibility="Hidden"/>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="Роль пользователя" Binding="{Binding Roles.RoleName}"  Width="1*"/>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="ФИО пользователя" Binding="{Binding UserFullName}" Width="1*"/>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="Логин пользователя" Binding="{Binding UserLogin}" Width="1*"/>
+                    <DataGridTextColumn HeaderStyle="{StaticResource FormatHeader}"  Header="Пароль пользователя" Binding="{Binding UserPassword}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Роль пользователя" Style="{StaticResource TextFormatDB}" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="ФИО пользователя" Style="{StaticResource TextFormatDB}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Логин пользователя" Style="{StaticResource TextFormatDB}" />
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="Пароль пользователя" Style="{StaticResource TextFormatDB}" />
+                <ComboBox x:Name="CbRoleUser" SelectedValue="{Binding SelectedItem.UserRoleId, ElementName=DataGridUsers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbFormat}" Grid.Row="1" Grid.Column="0" Margin="8" />
+                <TextBox x:Name="txtFioUser" Text="{Binding SelectedItem.UserFullName, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="1" Margin="8" />
+                <TextBox x:Name="txtLoginUser" Text="{Binding SelectedItem.UserLogin, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="2" Margin="8" />
+                <TextBox x:Name="txtPasswordUser" Text="{Binding SelectedItem.UserPassword, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="3" Margin="8" />
+            </Grid>
+            <StackPanel x:Name="Users" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" Grid.Row="2">
+                <Button x:Name="AcceptUser" Content="✔" FontSize="30" Background="Green" Foreground="White" Height="64" Width="65" HorizontalAlignment="Left" Margin="15,0" Click="AcceptUser_Click" ToolTip="Добавить"/>
+                <Button x:Name="EditUser" Content="✎" FontSize="30" Background="Orange" Foreground="White"  Height="64" Width="65" Margin="80,0" Click="EditUser_Click" ToolTip="Редактировать"/>
+                <Button x:Name="DeleteUser" Content="✖" FontSize="30" Background="Red" Foreground="White" Height="64" Width="65" Margin="0,0,80 0" Click="DeleteUser_Click" ToolTip="Удалить"/>
+                <Button x:Name="CancelUser" Content="🛇" FontSize="30" Background="#40b0fe" Foreground="White"  Height="64" Width="65" HorizontalAlignment="Right" Margin="15,0" Click="CancelUser_Click" ToolTip="Отменить выделение"/>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="2" Background="#374462"/>
+
+    </Grid>
+</Window>

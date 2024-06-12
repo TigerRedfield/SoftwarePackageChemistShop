@@ -1,0 +1,194 @@
+﻿<Window x:Class="OOO_ChemistShop.View.CatalogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:OOO_ChemistShop.View"
+        mc:Ignorable="d"
+        Title="ООО &quot;Медфарм&quot;" Height="900" Width="1440" MinHeight="800" MinWidth="1440" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.30*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.45*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.40*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.60*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Background="#374462" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="0.15*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Каталог" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource TxtTitle}"/>
+            <Button x:Name="ButtonExit" Background="White" Grid.Column="4" Grid.ColumnSpan="2" Margin="20" Click="ButtonExit_Click">
+                <StackPanel>
+                    <TextBlock Text="Назад" Style="{StaticResource TxtButton}" Foreground="Black"/>
+                </StackPanel>
+            </Button>
+            <Image Source="/Resources/medicine.png" Grid.Column="0" Margin="20" Grid.ColumnSpan="2"/>
+        </Grid>
+
+        <!--Вывод категорий-->
+        <Grid Grid.Row="1">
+            <ComboBox Name="CbCategoryFilter" Grid.Row="1" Style="{StaticResource txtCb}" Margin="15" SelectionChanged="CbCategoryFilter_SelectionChanged"/>
+        </Grid>
+        <TextBlock x:Name="txtFIO" Text="ФИО" Style="{StaticResource txtLabel}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
+
+        <Grid Grid.Row="2" Grid.RowSpan="2">
+            <ListBox x:Name="ListBoxProduct" Margin="15" MouseDoubleClick="ListBoxProduct_MouseDoubleClick">
+                <ListBox.ContextMenu>
+                    <ContextMenu Name="cmAddInOrder">
+                        <MenuItem Name ="miAddInOrder" Header="Добавить лекарство в корзину" Click="miAddInOrder_Click"/>
+                        <MenuItem Name="miDescriptionMedicine" Header="Посмотреть полную информацию о лекарстве" Click="miDescriptionMedicine_Click"/>
+                        <MenuItem Name="AdmAddPicture" Header="Добавить картинку" Click="AdmAddPicture_Click"/>
+                        <MenuItem Name="admDeleteCatalog" Header="Удалить из каталога" Click="admDeleteCatalog_Click"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Name="imgSource" Source="{Binding Path=ProductPhotoPath}" Width="150" Height="150" Stretch="Uniform">
+                            </Image>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Text="{Binding Path= Medicines.MedicineId}" Visibility="Collapsed"/>
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Path= Medicines.MedicineName}" Style="{StaticResource TxtTitleList}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Path= Medicines.MedicineRank, StringFormat = Рейтинг: {0}}" Style="{StaticResource TxtTitleList}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding Path= Medicines.Manufacturers.ManufacturerName, StringFormat=Производитель: {0}}" Style="{StaticResource txtLabelList}"/>
+                                <TextBlock Text="{Binding Path= Medicines.Manufacturers.ManufacturerCountry.ManufacturerCountryName, StringFormat=Страна: {0}}" Style="{StaticResource txtLabelList}"/>
+                                <TextBlock Text="{Binding Path= Medicines.MedicineCost, StringFormat=Цена: {0} руб.}" Style="{StaticResource txtLabelList}"/>
+                                <TextBlock Text="{Binding Path= Medicines.MedicineDiscount, StringFormat=Скидка: {0} %}" Style="{StaticResource txtLabelList}"/>
+                                <TextBlock Text="{Binding Path= ProductCostWithDiscount, StringFormat=Цена со скидкой: {0:f2} руб.}" Style="{StaticResource txtLabelList}"/>
+                                <TextBlock Text="{Binding Path= Medicines.MedicineCount, StringFormat=Количество на складе: {0}}" Style="{StaticResource TxtTitleList}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.RowSpan="2" Header="Сортировка по стоимости" Style="{StaticResource txtRb}">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton x:Name="RbHigh" Content="По возрастанию" GroupName="RbPrice" VerticalContentAlignment="Center" Margin="10" Checked="RbHigh_Checked"/>
+                    <RadioButton x:Name="RbLow" Content="По убыванию" GroupName="RbPrice" Margin="10" VerticalContentAlignment="Center" Checked="RbLow_Checked"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="3" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="ФИЛЬТРЫ" Style="{StaticResource txtLabel}" Grid.Row="0"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="По скидке" Style="{StaticResource txtLabel}" Grid.Row="1" HorizontalAlignment="Left" Margin="5 0" />
+                <ComboBox Name="cbFilterDisc" Grid.Column="1" Style="{StaticResource txtCb}" Margin="15 10" SelectionChanged="cbFilterDisc_SelectionChanged">
+                    <ComboBoxItem Content="Все диапазоны"/>
+                    <ComboBoxItem Content="0-9,99%"/>
+                    <ComboBoxItem Content="10-14,99%"/>
+                    <ComboBoxItem Content="15% и более"/>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="По производителю" Style="{StaticResource txtLabel}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5 0"/>
+                <ComboBox Name="cbFilterManuf" Style="{StaticResource txtCb}" Margin="15 10" Grid.Column="1" SelectionChanged="cbFilterManuf_SelectionChanged"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2.15*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Поиск по названию " Style="{StaticResource txtLabel}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5 0"/>
+                <TextBox x:Name="tbSearch" Grid.Column="1" Margin="10" TextChanged="tbSearch_TextChanged" Style="{StaticResource txtTb}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="0.8*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="WorkOrderButton" Margin="15" Background="#40b0fe" Click="WorkOrderButton_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Работа&#x0a;с заказами" TextAlignment="Center" TextWrapping="WrapWithOverflow" Style="{StaticResource TxtButton}"/>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="WorkCatalogButton" Margin="15" Grid.Column="1"  Background="#40b0fe" Click="WorkCatalogButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Работа&#x0a;с каталогом" TextAlignment="Center" TextWrapping="WrapWithOverflow" Style="{StaticResource TxtButton}"/>
+                </StackPanel>
+            </Button>
+
+
+            <Grid Grid.Column="2" Grid.ColumnSpan="2">
+
+                
+
+
+                <Button x:Name="WorkUserData" Margin="15" Background="#40b0fe" Grid.Column="0" Click="WorkUserData_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Работа&#x0a;с пользователями" TextAlignment="Center" TextWrapping="WrapWithOverflow" Style="{StaticResource TxtButton}"/>
+                    </StackPanel>
+                </Button>
+
+
+
+            </Grid>
+        </Grid>
+        <Button x:Name="OrderButtton" Margin="15" Grid.Column="1" Grid.Row="4" Background="#40b0fe"  HorizontalAlignment="Left" Width="520" Click="OrderButtton_Click">
+            <StackPanel>
+                <TextBlock x:Name="txtButton" Text="Просмотреть заказ" Style="{StaticResource TxtButton}" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="AddProductButton" Margin="15" Background="#40b0fe" Grid.Column="1" Grid.Row="4"  Click="AddProductButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Добавить лекарство" TextAlignment="Center" TextWrapping="WrapWithOverflow" Style="{StaticResource TxtButton}"/>
+            </StackPanel>
+        </Button>
+
+        <Grid Grid.Row="5" Grid.ColumnSpan="2"  Background="#374462"/>
+    </Grid>
+</Window>

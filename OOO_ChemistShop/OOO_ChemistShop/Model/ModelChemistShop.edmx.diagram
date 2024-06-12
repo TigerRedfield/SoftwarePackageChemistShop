@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="006ab6717d9e4f98875a3c9d82cec904" Name="Diagram1">
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Categories" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.ManufacturerCountry" Width="1.5" PointX="1.5" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Manufacturers" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Medicine" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.MedicineOrder" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Point" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Roles" Width="1.5" PointX="2.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Status" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OOODBChemistShopModel.Users" Width="1.5" PointX="5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Medicine_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Manufacturers_Manufacturers" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Medicine_Manufacturers" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_MedicineOrder_Medicine" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_MedicineOrder_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Order_Point" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Order_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="OOODBChemistShopModel.FK_Users_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

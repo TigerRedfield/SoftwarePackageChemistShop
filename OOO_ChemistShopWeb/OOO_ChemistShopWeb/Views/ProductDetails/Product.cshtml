@@ -1,0 +1,81 @@
+﻿@model OOO_ChemistShopWeb.Models.Medicine
+
+
+@{
+    double temp = 0.0;
+    double discount = (double)Model.MedicineCost * (double)Model.MedicineDiscount / 100;
+    temp = (double)Model.MedicineCost - discount;
+
+    ViewBag.Title = Model.MedicineName;
+}
+
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body style="font-family: 'Times New Roman', Times, serif">
+
+    <div style="display: flex">
+        <a>
+
+            @if (!String.IsNullOrEmpty(Model.MedicinePhoto))
+            {
+                <img src="/Images/@Model.MedicinePhoto" class="card-img-top rounded"
+                     style="width: auto; height: 250px; max-width: 100%; margin-top: 50px" />
+            }
+            else
+            {
+                <img src="/Images/Pictures.png" class="card-img-top rounded"
+                    style="width: auto; height: 250px; max-width: 100%; float: left; margin-top: 50px;" />
+            }
+        </a>
+
+        <div class="font" style="margin-top: 50px; margin-left: 20px;">
+            <a style="font-weight: bold; font-size: 20pt"> @Model.MedicineName</a>
+            <a style="margin-left: 10px">⭐ @Model.MedicineRank</a>
+            <p> <a> @String.Format("{0:f2}", temp) ₽</a>  <s style="font-size: 12pt; color: gray"> @String.Format("{0:f2}", Model.MedicineCost) ₽</s></p>
+            @if (Model.MedicineCount > 0)
+            {
+                if (Session["UserLogin"] == null)
+                {
+                    <a href="@Url.Action("UserLogin", "Account")">
+                        <input type="button" value="В корзину" style="border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt" class="buttonAddCart" />
+                    </a>
+                }
+                else
+                {
+                    <a style="text-decoration: none" href='@Url.Action("OrderList", "ShoppingCartViews", new {id=Model.MedicineId})'>
+                        <input type="button" value="В корзину" style="border: solid 1px; border-radius: 4px; width: 200px; height: 50px; font-size: 16pt"  class="buttonAddCart"/>
+                    </a>
+                }
+
+            }
+            else
+            {
+                <p><a style="font-size: 16pt;">Нет в наличии</a></p>
+            }
+            <hr />
+            <p><a style="color: gray">Производитель: </a> <a style="margin-left: 5px">@Model.Manufacturers.ManufacturerName</a></p>
+            <p><a style="color: gray">Категория: </a> <a style="margin-left: 5px">@Model.Categories.CategoryName</a></p>
+            <p><a style="color: gray">Дата изготовления: </a> <a style="margin-left: 5px">@Model.MedicineDateManufacturing.ToString("yyyy")</a></p>
+            <p><a style="color: gray">Срок годности: </a> <a style="margin-left: 5px">@Model.MedicineExpirationDate месяцев</a></p>
+            <p><a style="color: gray">Страна: </a> <a style="margin-left: 5px">@Model.Manufacturers.ManufacturerCountry.ManufacturerCountryName</a></p>
+            <p><a style="color: gray">Количество на складе: </a> <a style="margin-left: 5px">@Model.MedicineCount штук</a></p>
+            @if (!String.IsNullOrEmpty(Model.MedicineDescription))
+            {
+                <p><a style="color: gray">Описание: </a> <a style="margin-left: 5px">@Model.MedicineDescription</a></p>
+            }
+        </div>
+    </div>
+</body>
+
+
+</html>
+
+<style>
+    .font{ 
+            
+            font-size: 16pt;
+    }
+</style>

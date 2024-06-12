@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - приложение ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-color colortext">
+        <div class="container" style="font-family: 'Times New Roman', Times, serif; font-size: 16pt; color: white;  ">
+            <img src="/Images/medicine.png" class="card-img-top rounded"
+                 style="width: auto; height: 50px; max-width: 100%;" />
+            @Html.ActionLink("Аптека «МедФарм»", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "margin-left: 8px" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Переключить навигацию" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li> @Html.ActionLink("Главная страница", "Index", "Home", new { area = "" }, new { @class = "nav-link colortext " })</li>
+                    <li>  @Html.ActionLink("Каталог", "ProductsView", "Home", new { area = "" }, new { @class = "nav-link colortext" }) </li>
+                </ul>
+            </div>
+            <div class="d-sm-inline-flex justify-content-sm-start">
+                <ul class="navbar-nav flex-grow-1">
+                    <li> @Html.ActionLink("Корзина", "ShoppingCart", "ShoppingCartViews", new { area = "" }, new { @class = "nav-link colortext " })</li>
+                    @Html.Partial("_PartialLogin")
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bg-light border" style="margin: 0px 0px 20px 0px; width: auto; border-radius: 0px 0px 4px 4px; ">
+        <div class="text-end">
+            @using (Html.BeginForm("ProductsView", "Home", FormMethod.Post))
+            {
+                {
+                    <div class="row m-2">
+
+                        <div class="col-md-3 col-lg-12 col-sm-12">
+                            <div class="d-flex justify-content-end form-group" >
+                                @Html.TextBox("searchProduct", null, new { placeholder = "Поиск товара по названию", @class= "TbSearch container" })
+                                <button type="submit" class="btn buttonSearch">Искать </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+    </div>
+    <footer border-top footer text-muted bg-navbar" class="page-footer" style=" height: 100px; margin-top: 10px; flex-wrap: nowrap; font-size: 16pt; font-family: 'Times New Roman', Times, serif">
+        <hr />
+        <p>&copy; @DateTime.Now.Year - Аптека "МедФарм"</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<style>
+    .bg-color {
+        background-color: #374462;
+    }
+
+    .colortext{
+        color: white;
+    }
+
+        .colortext ul li.active a {
+            color: gold;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    .page-footer {
+        padding: 1rem;
+        background: #374462;
+        color: #fff;
+        text-align: center;
+    }
+    .TbSearch {
+        margin: 0px 0px 0px 100px;
+        width: 100%;
+        border-radius: 4px 0 0 4px;
+        font-size: 14pt;
+        font-family: 'Times New Roman', Times, serif;
+        border: 1px solid black;
+    }
+
+    .buttonSearch {
+        border-radius: 0px 4px 4px 0px;
+        width: 200px;
+        margin: 0 100px 0 0;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 16pt;
+        background-color: blue;
+        color: white;
+    }
+
+        .buttonSearch:hover {
+            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+            border: 1px solid blue;
+        }
+
+    .buttonAddCart {
+        background-color: #40b0fe;
+        color: white;
+    }
+
+    .buttonAddCart:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .buttonAuthoReg {
+        background-color: #40b0fe;
+        color: white;
+        border: 1px solid;
+    }
+
+        .buttonAuthoReg:hover {
+            border: 1px solid black
+        }
+
+</style>
+
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+
+    if ($(document).height() <= $(window).height()) {
+        $(".page-footer").addClass("fixed-bottom");
+    }
+
+      $(function() {
+          var url = window.location.href;
+          var urlSearch = window.location.search;
+
+        $(".colortext a").each(function() {
+            // checks if its the same on the address bar
+            if (url == (this.href)) {
+                $(this).closest("li").addClass("active");
+                //for making parent of submenu active
+                $(this).closest("li").parent().parent().addClass("active");
+            }
+            else if (url == (this.href + urlSearch)) {
+                $(this).closest("li").addClass("active");
+                //for making parent of submenu active
+                $(this).closest("li").parent().parent().addClass("active");
+            }
+        });
+      });      
+       
+</script>

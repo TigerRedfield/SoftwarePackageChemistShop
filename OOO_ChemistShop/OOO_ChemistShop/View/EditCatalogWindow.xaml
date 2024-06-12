@@ -1,0 +1,150 @@
+﻿<Window x:Class="OOO_ChemistShop.View.EditCatalogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:OOO_ChemistShop.View"
+        mc:Ignorable="d"
+           Title="ООО &quot;Медфарм&quot;" Height="900" Width="1440" MinHeight="800" MinWidth="1440" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.13*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.05*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0" Background="#374462" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.34*"/>
+                <ColumnDefinition Width="0.15*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="tbTitle" Text="Добавление товара" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource TxtTitle}"/>
+            <Button x:Name="ButtonExit" Background="White" Grid.Column="4" Grid.ColumnSpan="2" Margin="20" Click="ButtonExit_Click">
+                <StackPanel>
+                    <TextBlock Text="Назад" Style="{StaticResource TxtButton}" Foreground="Black"/>
+                </StackPanel>
+            </Button>
+            <Image Source="/Resources/medicine.png" Grid.Column="0" Margin="20" Grid.ColumnSpan="2"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid Grid.Column="0" Columns="2" Rows="12">
+                <Button Visibility="Hidden"/>
+                <Button Visibility="Hidden"/>
+                <TextBlock x:Name="txtId" Text="ID" Style="{StaticResource txtLabel}" HorizontalAlignment="Right" 
+                                     Margin="10" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbId" Style="{StaticResource txtTb}" Margin="5"/>
+                <TextBlock Text="Наименовние" Style="{StaticResource txtLabel}" 
+                                    HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbName" Style="{StaticResource txtTb}" Margin="5"/>
+                <TextBlock Text="Производитель" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <ComboBox Name="cbManuf" Style="{StaticResource txtCb}" Margin="5"/>
+                <TextBlock Text="Категория" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <ComboBox Name="cbCat" Style="{StaticResource txtCb}" Margin="5"/>
+                <TextBlock Text="Рейтинг" Style="{StaticResource txtLabel}" 
+                            HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbRank" Style="{StaticResource txtTb}" Margin="5" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="DoubleNumberValidationTextBox"/>
+                <TextBlock Text="Стоимость" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbCost" Style="{StaticResource txtTb}" Margin="5" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="DoubleNumberValidationTextBox"/>
+                <TextBlock Text="Мак.скидка" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbMaxDisc" Style="{StaticResource txtTb}" Margin="5" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="DoubleNumberValidationTextBox"/>
+                <TextBlock Text="Дейст.скидка" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbCurDisc" Style="{StaticResource txtTb}" Margin="5" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="DoubleNumberValidationTextBox"/>
+                <TextBlock Text="Количество" Style="{StaticResource txtLabel}" 
+                                     HorizontalAlignment="Right" Margin="10 0" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbCount" Style="{StaticResource txtTb}" Margin="5" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="tbCount_PreviewTextInput"/>
+            </UniformGrid>
+
+            <!--Поля описания и фото товара-->
+            <Grid Grid.Column="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image x:Name="imagePhoto" Grid.Row="0" Stretch="Uniform" Margin="20 10" 
+                             Source="/Resources/Pictures.png"/>
+                <Button x:Name="butSelectPhoto" Content="Выбрать фото ..." Grid.Row="1" 
+                               Margin="20 5" Style="{StaticResource LabelButton}" Click="butSelectPhoto_Click" Background="#40b0fe" Foreground="White"/>
+                <TextBlock Grid.Row="2" Text="Описание товара" Style="{StaticResource txtLabel}"
+                                    HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbDiscr" Grid.Row="3" Text="Текст описания товара" 
+                                  TextWrapping ="Wrap" AcceptsReturn ="True"
+                                AcceptsTab ="True" FontSize="24" VerticalScrollBarVisibility="Visible" 
+                                HorizontalScrollBarVisibility="Auto" Style="{StaticResource txtTbDescrip}" Margin="5 0"/>
+                <Button x:Name="butSaveInDB" Grid.Row="6" Content="Сохранить" 
+                               Margin="20 10" Style="{StaticResource LabelButton}" Click="butSaveInDB_Click" Background="#40b0fe" Foreground="White" />
+
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Дата изготовления" Style="{StaticResource txtLabel}" 
+                         HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"/>
+                        <DatePicker x:Name="DpManuf" Margin="10" Grid.Row="1" Style="{StaticResource LabelButton}" SelectedDate="{x:Static sys:DateTime.Now}" Focusable="False">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <TextBox x:Name="PART_TextBox" Focusable="False"
+                                     Text="{Binding Path=SelectedDate, StringFormat = {}{0:yyyy}, 
+                                     RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Срок годности (в мес.)" Style="{StaticResource txtLabel}" 
+                         HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"/>
+                        <TextBox x:Name="tbExp" Margin="10" Grid.Row="1" Style="{StaticResource txtTb}" PreviewKeyDown="tbPreviewKeyDown" PreviewTextInput="tbCount_PreviewTextInput"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="2" Background="#374462"/>
+
+
+
+
+    </Grid>
+</Window>

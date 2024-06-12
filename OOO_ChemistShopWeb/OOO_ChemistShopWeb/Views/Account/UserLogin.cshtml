@@ -1,0 +1,76 @@
+﻿@model OOO_ChemistShopWeb.ViewModels.ModelUserLogin
+
+@{
+    ViewBag.Title = "Авторизация";
+}
+
+
+
+<fieldset style="font-family: 'Times New Roman'; font-size: 14pt">
+
+    <h2 style="display: flex; justify-content: center">Авторизация</h2>
+    <hr />
+
+    @using (Html.BeginForm("UserLogin", "Account", FormMethod.Post))
+    {
+
+        <div style="display: flex; justify-content: center; margin-top: 30px">
+
+
+            <div style="display: grid;">
+
+                @Html.AntiForgeryToken()
+
+                @Html.LabelFor(m => m.UserLogin)
+                @Html.TextBoxFor(m => m.UserLogin)
+                @Html.ValidationMessageFor(m => m.UserLogin, null, new { @class = "text text-danger" })
+                <p style="margin-bottom: 10px"></p>
+
+
+                @Html.LabelFor(m => m.UserPassword)
+                @Html.TextBoxFor(m => m.UserPassword, null, new { @type = "password", @id = "typepass" })
+                @Html.ValidationMessageFor(m => m.UserPassword, null, new { @class = "text text-danger" })
+                <a style="margin-top: 10px">  @Html.CheckBox("Показать пароль", new { @onclick = "Toggle()", @id = "showpass", }) Показать пароль </a>
+
+
+                <p style="margin-bottom: 10px"></p>
+
+                <input type="submit" value="Войти" style="border-radius: 4px; font-size: 20pt; " class="buttonAuthoReg" />
+
+                <p style="margin-bottom: 10px; margin-top: 15px;"><a>Нет аккаунта?</a> <a style="text-decoration: none" href="@Url.Action("UserRegistration", "Account")">Зарегистрироваться</a></p>
+            </div>
+
+        </div>
+
+
+    }
+
+        <div style = "text-align: center">
+            @Html.ValidationMessage("Ошибка", null, new { @class = "text text-danger" })
+        </div>
+
+</fieldset>
+
+<style>
+    .bg-color {
+        background-color: #374462;
+    }
+
+    .colortext {
+        color: white;
+    }
+</style>
+
+<script>
+    // Change the type of input to password or text
+    function Toggle() {
+        let temp = document.getElementById("typepass");
+        let temp2 = document.getElementById("showpass");
+        if (temp2.checked == false) {
+            temp.type = "password";
+        }
+        else if (temp2.checked == true) {
+            temp.type = "text";
+        }
+    }
+</script>

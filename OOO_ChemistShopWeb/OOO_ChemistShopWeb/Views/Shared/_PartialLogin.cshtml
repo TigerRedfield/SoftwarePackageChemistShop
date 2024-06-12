@@ -1,0 +1,15 @@
+﻿@if (Session["UserLogin"] == null)
+{
+        <li>@Html.ActionLink("Вход", "UserLogin", "Account", new { area = "" }, new { @class = "nav-link colortext" })</li>
+        <li style=" margin-top: 4px; font-size: 19pt">|</li>
+        <li>@Html.ActionLink("Регистрация", "UserRegistration", "Account", new { area = "" }, new { @class = "nav-link colortext" })</li>
+}
+else
+{
+        <li> @Html.Label(Session["UserFIO"] + "", null, new { @class = "nav-link colortext"} )</li>
+        <li style=" margin-top: 4px; font-size: 19pt">|</li>
+        <li > @Html.ActionLink("Выход", "Logout", "Account", new { area = "" }, new { @class = "nav-link colortext" })</li>
+}
+<script>
+    
+</script>

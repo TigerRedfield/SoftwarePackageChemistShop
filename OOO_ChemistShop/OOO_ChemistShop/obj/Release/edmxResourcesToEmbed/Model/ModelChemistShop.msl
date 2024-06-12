@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище OOODBChemistShopModelContainer" CdmEntityContainer="OOODBChemistShop">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Categories">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManufacturerCountry">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.ManufacturerCountry">
+        <MappingFragment StoreEntitySet="ManufacturerCountry">
+          <ScalarProperty Name="ManufacturerCountryId" ColumnName="ManufacturerCountryId" />
+          <ScalarProperty Name="ManufacturerCountryName" ColumnName="ManufacturerCountryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Manufacturers">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Manufacturers">
+        <MappingFragment StoreEntitySet="Manufacturers">
+          <ScalarProperty Name="MedicineManufacturerId" ColumnName="MedicineManufacturerId" />
+          <ScalarProperty Name="ManufacturerCountryId" ColumnName="ManufacturerCountryId" />
+          <ScalarProperty Name="ManufacturerName" ColumnName="ManufacturerName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Medicine">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Medicine">
+        <MappingFragment StoreEntitySet="Medicine">
+          <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+          <ScalarProperty Name="MedicineManufacturerId" ColumnName="MedicineManufacturerId" />
+          <ScalarProperty Name="MedicineName" ColumnName="MedicineName" />
+          <ScalarProperty Name="MedicineCost" ColumnName="MedicineCost" />
+          <ScalarProperty Name="MedicineDiscount" ColumnName="MedicineDiscount" />
+          <ScalarProperty Name="MedicineDiscountMax" ColumnName="MedicineDiscountMax" />
+          <ScalarProperty Name="MedicineRank" ColumnName="MedicineRank" />
+          <ScalarProperty Name="MedicineCount" ColumnName="MedicineCount" />
+          <ScalarProperty Name="MedicineCategory" ColumnName="MedicineCategory" />
+          <ScalarProperty Name="MedicineDateManufacturing" ColumnName="MedicineDateManufacturing" />
+          <ScalarProperty Name="MedicineExpirationDate" ColumnName="MedicineExpirationDate" />
+          <ScalarProperty Name="MedicineDescription" ColumnName="MedicineDescription" />
+          <ScalarProperty Name="MedicinePhoto" ColumnName="MedicinePhoto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MedicineOrder">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.MedicineOrder">
+        <MappingFragment StoreEntitySet="MedicineOrder">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="MedicineId" ColumnName="MedicineId" />
+          <ScalarProperty Name="ProductCount" ColumnName="ProductCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="DateOrder" ColumnName="DateOrder" />
+          <ScalarProperty Name="DateDelivery" ColumnName="DateDelivery" />
+          <ScalarProperty Name="OrderPointId" ColumnName="OrderPointId" />
+          <ScalarProperty Name="OrderClient" ColumnName="OrderClient" />
+          <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+          <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Point">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Point">
+        <MappingFragment StoreEntitySet="Point">
+          <ScalarProperty Name="PointId" ColumnName="PointId" />
+          <ScalarProperty Name="PointAddress" ColumnName="PointAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Roles">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="OOODBChemistShopModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+          <ScalarProperty Name="UserFullName" ColumnName="UserFullName" />
+          <ScalarProperty Name="UserLogin" ColumnName="UserLogin" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище OOO_DBChemistShopModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ManufacturerCountry">
+    <Key>
+      <PropertyRef Name="ManufacturerCountryId" />
+    </Key>
+    <Property Name="ManufacturerCountryId" Type="int" Nullable="false" />
+    <Property Name="ManufacturerCountryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Manufacturers">
+    <Key>
+      <PropertyRef Name="MedicineManufacturerId" />
+    </Key>
+    <Property Name="MedicineManufacturerId" Type="int" Nullable="false" />
+    <Property Name="ManufacturerCountryId" Type="int" Nullable="false" />
+    <Property Name="ManufacturerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Medicine">
+    <Key>
+      <PropertyRef Name="MedicineId" />
+    </Key>
+    <Property Name="MedicineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MedicineManufacturerId" Type="int" Nullable="false" />
+    <Property Name="MedicineName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="MedicineCost" Type="float" Nullable="false" />
+    <Property Name="MedicineDiscount" Type="float" Nullable="false" />
+    <Property Name="MedicineDiscountMax" Type="float" Nullable="false" />
+    <Property Name="MedicineRank" Type="float" Nullable="false" />
+    <Property Name="MedicineCount" Type="int" Nullable="false" />
+    <Property Name="MedicineCategory" Type="int" Nullable="false" />
+    <Property Name="MedicineDateManufacturing" Type="date" Nullable="false" />
+    <Property Name="MedicineExpirationDate" Type="int" Nullable="false" />
+    <Property Name="MedicineDescription" Type="nvarchar" MaxLength="110" />
+    <Property Name="MedicinePhoto" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="MedicineOrder">
+    <Key>
+      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="MedicineId" />
+    </Key>
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="MedicineId" Type="int" Nullable="false" />
+    <Property Name="ProductCount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="DateOrder" Type="datetime" Nullable="false" />
+    <Property Name="DateDelivery" Type="datetime" Nullable="false" />
+    <Property Name="OrderPointId" Type="int" Nullable="false" />
+    <Property Name="OrderClient" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="OrderCode" Type="int" Nullable="false" />
+    <Property Name="OrderStatusId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Point">
+    <Key>
+      <PropertyRef Name="PointId" />
+    </Key>
+    <Property Name="PointId" Type="int" Nullable="false" />
+    <Property Name="PointAddress" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="int" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="UserRoleId" Type="int" Nullable="false" />
+    <Property Name="UserFullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="UserLogin" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Manufacturers_Manufacturers">
+    <End Role="ManufacturerCountry" Type="Self.ManufacturerCountry" Multiplicity="1" />
+    <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManufacturerCountry">
+        <PropertyRef Name="ManufacturerCountryId" />
+      </Principal>
+      <Dependent Role="Manufacturers">
+        <PropertyRef Name="ManufacturerCountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Medicine_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Medicine">
+        <PropertyRef Name="MedicineCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Medicine_Manufacturers">
+    <End Role="Manufacturers" Type="Self.Manufacturers" Multiplicity="1" />
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manufacturers">
+        <PropertyRef Name="MedicineManufacturerId" />
+      </Principal>
+      <Dependent Role="Medicine">
+        <PropertyRef Name="MedicineManufacturerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedicineOrder_Medicine">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="1" />
+    <End Role="MedicineOrder" Type="Self.MedicineOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="MedicineId" />
+      </Principal>
+      <Dependent Role="MedicineOrder">
+        <PropertyRef Name="MedicineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedicineOrder_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="MedicineOrder" Type="Self.MedicineOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="MedicineOrder">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Point">
+    <End Role="Point" Type="Self.Point" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Point">
+        <PropertyRef Name="PointId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="OrderPointId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="OrderStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Users">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="UserRoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище OOO_DBChemistShopModelContainer">
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ManufacturerCountry" EntityType="Self.ManufacturerCountry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Manufacturers" EntityType="Self.Manufacturers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Medicine" EntityType="Self.Medicine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MedicineOrder" EntityType="Self.MedicineOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Point" EntityType="Self.Point" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Manufacturers_Manufacturers" Association="Self.FK_Manufacturers_Manufacturers">
+      <End Role="ManufacturerCountry" EntitySet="ManufacturerCountry" />
+      <End Role="Manufacturers" EntitySet="Manufacturers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Medicine_Categories" Association="Self.FK_Medicine_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Medicine" EntitySet="Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Medicine_Manufacturers" Association="Self.FK_Medicine_Manufacturers">
+      <End Role="Manufacturers" EntitySet="Manufacturers" />
+      <End Role="Medicine" EntitySet="Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MedicineOrder_Medicine" Association="Self.FK_MedicineOrder_Medicine">
+      <End Role="Medicine" EntitySet="Medicine" />
+      <End Role="MedicineOrder" EntitySet="MedicineOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MedicineOrder_Order" Association="Self.FK_MedicineOrder_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="MedicineOrder" EntitySet="MedicineOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Point" Association="Self.FK_Order_Point">
+      <End Role="Point" EntitySet="Point" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Users" Association="Self.FK_Users_Users">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
