@@ -31,7 +31,7 @@ namespace OOO_ChemistShop.View
         string filePath;			//Путь к фото из диалога
         //Путь к папке с фотографиями
         string pathPhoto = System.IO.Directory.GetCurrentDirectory() + @"\Images\";
-        string pathWebPhoto = @"C:\Users\Tiger\Desktop\Диплом\OOO_ChemistShopWeb\OOO_ChemistShopWeb\Images\";
+        string pathWebPhoto = @"F:\дипломы\SoftwarePackageChemistShop-master\OOO_ChemistShopWeb\OOO_ChemistShopWeb\Images\";
         Model.Medicine medicine;	//Товар, с которым сейчас работают
         public CatalogWindow()
         {

@@ -30,7 +30,6 @@ namespace OOO_ChemistShop.View
         Model.ManufacturerCountry countriesWork = new ManufacturerCountry();
         Model.Manufacturers manufacturersWork = new Manufacturers();
         Model.Point pointWork = new Model.Point();
-
         public WorkDatabaseWindow()
         {
             InitializeComponent();
@@ -62,6 +61,8 @@ namespace OOO_ChemistShop.View
 
             txtCatId.Text = "";
             txtCatName.Text = "";
+
+            DataGridCateg.UnselectAllCells();
         }
 
         /// <summary>
@@ -75,6 +76,10 @@ namespace OOO_ChemistShop.View
 
             txtCountryId.Text = "";
             txtCountryName.Text = "";
+
+            DataGridCountries.UnselectAllCells();
+
+
         }
 
         /// <summary>
@@ -86,6 +91,7 @@ namespace OOO_ChemistShop.View
             DataGridManufacturers.ItemsSource = manufacturers;
             CbManufCountry.SelectedIndex = -1;
             txtManufName.Text = "";
+            DataGridManufacturers.UnselectAllCells();
         }
 
         /// <summary>
@@ -98,6 +104,8 @@ namespace OOO_ChemistShop.View
 
             txtPointId.Text = "";
             txtPointName.Text = "";
+
+            DataGridPoints.UnselectAllCells();
         }
 
 
@@ -109,22 +117,43 @@ namespace OOO_ChemistShop.View
         /// <param name="e"></param>
         private void AcceptCateg_Click(object sender, RoutedEventArgs e)
         {
-            txtCatId.Text = categoryWork.CategoryId.ToString();
-            categoryWork.CategoryName = txtCatName.Text;
+            StringBuilder sb = new StringBuilder();
 
-            try
+            if (String.IsNullOrEmpty(txtCatName.Text))
             {
-                Helper.DB.Categories.Add(categoryWork);
-                Helper.DB.SaveChanges();
-                MessageBox.Show("БД успешно обновлена");
+                sb.AppendLine("Не введено название категории!");
+            }
+
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(sb.ToString(), "Внимание");
+            }
+            else
+            {
+                categoryWork = Helper.DB.Categories.FirstOrDefault(x => x.CategoryName == txtCatName.Text);
+                if (categoryWork == null)
+                {
+                    txtCatId.Text = categoryWork.CategoryId.ToString();
+                    categoryWork.CategoryName = txtCatName.Text;
+
+                    try
+                    {
+                        Helper.DB.Categories.Add(categoryWork);
+                        Helper.DB.SaveChanges();
+                        MessageBox.Show("БД успешно обновлена");
                 
+                    }
+                    catch
+                    {
+                        MessageBox.Show("С обновлением БД проблемы");
+                    }
+                    ShowCategory();
+                }
+                else
+                {
+                    MessageBox.Show("Категория с таким названием уже есть в БД!");
+                }
             }
-            catch
-            {
-                MessageBox.Show("С обновлением БД проблемы");
-            }
-
-            ShowCategory();
         }
 
         /// <summary>
@@ -141,29 +170,53 @@ namespace OOO_ChemistShop.View
             }
             else
             {
-                int ID = int.Parse(txtCatId.Text);
+                StringBuilder sb = new StringBuilder();
 
-                var item = Helper.DB.Categories.SingleOrDefault(x => x.CategoryId == ID);
-
-                if (item != null)
+                if (String.IsNullOrEmpty(txtCatName.Text))
                 {
-                    try
+                    sb.AppendLine("Не введено название категории!");
+                }
+
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString(), "Внимание");
+                }
+                else
+                {
+                    int ID = int.Parse(txtCatId.Text);
+
+                    var item = Helper.DB.Categories.SingleOrDefault(x => x.CategoryId == ID);
+
+                    if (item != null)
                     {
-                        categoryWork.CategoryName = txtCatName.Text.Trim();
-                        Helper.DB.Entry(item).State = EntityState.Modified;
-                        Helper.DB.SaveChanges();
-                        DataGridCateg.UnselectAllCells();
-                        MessageBox.Show("БД успешно обновлена");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("С обновлением БД проблемы");
+                        categoryWork = Helper.DB.Categories.FirstOrDefault(x => x.CategoryName == txtCatName.Text);
+                        if (categoryWork == null)
+                        {
+                            item.CategoryName = txtCatName.Text.Trim();
+
+                            try
+                            {
+                                Helper.DB.Entry(item).State = EntityState.Modified;
+                                Helper.DB.SaveChanges();
+                                DataGridCateg.UnselectAllCells();
+                                MessageBox.Show("БД успешно обновлена");
+                            }
+                            catch
+                            {
+                                MessageBox.Show("С обновлением БД проблемы");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Категория с таким названием уже есть в БД!");
+                        }
+
                     }
 
                 }
-
             }
             ShowCategory();
+            
         }
 
         /// <summary>
@@ -239,22 +292,44 @@ namespace OOO_ChemistShop.View
         /// <param name="e"></param>
         private void AcceptPoint_Click(object sender, RoutedEventArgs e)
         {
-            txtPointId.Text = pointWork.PointId.ToString();
-            pointWork.PointAddress = txtPointName.Text;
+            StringBuilder sb = new StringBuilder();
 
-            try
+            if (String.IsNullOrEmpty(txtPointName.Text))
             {
-                Helper.DB.Point.Add(pointWork);
-                Helper.DB.SaveChanges();
-                MessageBox.Show("БД успешно обновлена");
-
-            }
-            catch
-            {
-                MessageBox.Show("С обновлением БД проблемы");
+                sb.AppendLine("Не введён адрес пункта выдачи!");
             }
 
-            ShowPoint();
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(sb.ToString(), "Внимание");
+            }
+            else
+            {
+                pointWork = Helper.DB.Point.FirstOrDefault(x => x.PointAddress == txtCatName.Text);
+                if (pointWork == null)
+                {
+                    txtPointId.Text = pointWork.PointId.ToString();
+                    pointWork.PointAddress = txtPointName.Text;
+
+                    try
+                    {
+                        Helper.DB.Point.Add(pointWork);
+                        Helper.DB.SaveChanges();
+                        MessageBox.Show("БД успешно обновлена");
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("С обновлением БД проблемы");
+                    }
+
+                    ShowPoint();
+                }
+                else
+                {
+                    MessageBox.Show("Адрес пункта выдачи с таким названием уже есть в БД!");
+                }
+            }
         }
 
         /// <summary>
@@ -271,28 +346,48 @@ namespace OOO_ChemistShop.View
             }
             else
             {
-                int ID = int.Parse(txtPointId.Text);
+                StringBuilder sb = new StringBuilder();
 
-                var item = Helper.DB.Point.SingleOrDefault(x => x.PointId == ID);
-
-                if (item != null)
+                if (String.IsNullOrEmpty(txtPointName.Text))
                 {
-                   
-                    try
-                    {
-                        pointWork.PointAddress = txtPointName.Text.Trim();
-                        Helper.DB.Entry(item).State = EntityState.Modified;
-                        Helper.DB.SaveChanges();
-                        DataGridPoints.UnselectAllCells();
-                        MessageBox.Show("БД успешно обновлена");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("С обновлением БД проблемы");
-                    }
-
+                    sb.AppendLine("Не введён адрес пункта выдачи!");
                 }
 
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString(), "Внимание");
+                }
+                else
+                {
+                    int ID = int.Parse(txtPointId.Text);
+
+                    var item = Helper.DB.Point.SingleOrDefault(x => x.PointId == ID);
+
+                    if (item != null)
+                    {
+                        pointWork = Helper.DB.Point.FirstOrDefault(x => x.PointAddress == txtPointName.Text);
+                        if (pointWork == null)
+                        {
+                            item.PointAddress = txtPointName.Text.Trim();
+                            try
+                            {
+                                Helper.DB.Entry(item).State = EntityState.Modified;
+                                Helper.DB.SaveChanges();
+                                DataGridPoints.UnselectAllCells();
+                                MessageBox.Show("БД успешно обновлена");
+                            }
+                            catch
+                            {
+                                MessageBox.Show("С обновлением БД проблемы");
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Адрес пункта выдачи с таким названием уже есть в БД!");
+                        }
+                    }   
+                }
             }
             ShowPoint();
         }
@@ -370,22 +465,45 @@ namespace OOO_ChemistShop.View
         /// <param name="e"></param>
         private void AcceptManufCountry_Click(object sender, RoutedEventArgs e)
         {
-            txtCountryId.Text = countriesWork.ManufacturerCountryId.ToString();
-            countriesWork.ManufacturerCountryName = txtCountryName.Text;
+            StringBuilder sb = new StringBuilder();
 
-            try
-            {
-                Helper.DB.ManufacturerCountry.Add(countriesWork);
-                Helper.DB.SaveChanges();
-                MessageBox.Show("БД успешно обновлена");
 
-            }
-            catch
+            if (String.IsNullOrEmpty(txtCountryName.Text))
             {
-                MessageBox.Show("С обновлением БД проблемы");
+                sb.AppendLine("Не введена страна производителей!");
             }
 
-            ShowCountry();
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(sb.ToString(), "Внимание");
+            }
+            else
+            {
+                countriesWork = Helper.DB.ManufacturerCountry.FirstOrDefault(x => x.ManufacturerCountryName == txtCountryName.Text);
+                if (countriesWork == null)
+                {
+                    txtCountryId.Text = countriesWork.ManufacturerCountryId.ToString();
+                    countriesWork.ManufacturerCountryName = txtCountryName.Text;
+
+                    try
+                    {
+                        Helper.DB.ManufacturerCountry.Add(countriesWork);
+                        Helper.DB.SaveChanges();
+                        MessageBox.Show("БД успешно обновлена");
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("С обновлением БД проблемы");
+                    }
+                    ShowCountry();
+                }
+                else
+                {
+                    MessageBox.Show("Страна производителя с таким названием уже есть в БД!");
+                }
+
+            }
         }
 
         /// <summary>
@@ -402,29 +520,52 @@ namespace OOO_ChemistShop.View
             }
             else
             {
-                int ID = int.Parse(txtCountryId.Text);
+                StringBuilder sb = new StringBuilder();
 
-                var item = Helper.DB.ManufacturerCountry.SingleOrDefault(x => x.ManufacturerCountryId == ID);
-
-                if (item != null)
+                if (String.IsNullOrEmpty(txtCountryName.Text))
                 {
-                    try
+                    sb.AppendLine("Не введена страна производителей!");
+                }
+
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString(), "Внимание");
+                }
+                else
+                {
+                    int ID = int.Parse(txtCountryId.Text);
+
+                    var item = Helper.DB.ManufacturerCountry.SingleOrDefault(x => x.ManufacturerCountryId == ID);
+
+                    if (item != null)
                     {
-                        countriesWork.ManufacturerCountryName = txtCountryName.Text.Trim();
-                        Helper.DB.Entry(item).State = EntityState.Modified;
-                        Helper.DB.SaveChanges();
-                        DataGridCountries.UnselectAllCells();
-                        MessageBox.Show("БД успешно обновлена");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("С обновлением БД проблемы");
+                        countriesWork = Helper.DB.ManufacturerCountry.FirstOrDefault(x => x.ManufacturerCountryName == txtCountryName.Text);
+                        if (countriesWork == null)
+                        {
+                            item.ManufacturerCountryName = txtCountryName.Text.Trim();
+                            try
+                            {
+                                Helper.DB.Entry(item).State = EntityState.Modified;
+                                Helper.DB.SaveChanges();
+                                DataGridCountries.UnselectAllCells();
+                                MessageBox.Show("БД успешно обновлена");
+                            }
+                            catch
+                            {
+                                MessageBox.Show("С обновлением БД проблемы");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Страна производителя с таким названием уже есть в БД!");
+                        }
+
                     }
 
                 }
-
             }
             ShowCountry();
+          
         }
 
 
@@ -501,23 +642,49 @@ namespace OOO_ChemistShop.View
         /// <param name="e"></param>
         private void AcceptManuf_Click(object sender, RoutedEventArgs e)
         {
-            txtManufacturerId.Text = manufacturersWork.MedicineManufacturerId.ToString();
-            manufacturersWork.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
-            manufacturersWork.ManufacturerName = txtManufName.Text;
+            StringBuilder sb = new StringBuilder();
 
-            try
+            if (CbManufCountry.SelectedIndex == -1)
             {
-                Helper.DB.Manufacturers.Add(manufacturersWork);
-                Helper.DB.SaveChanges();
-                MessageBox.Show("БД успешно обновлена");
-
+                sb.AppendLine("Не выбрана страна производителя!");
             }
-            catch
+            if (String.IsNullOrEmpty(txtManufName.Text))
             {
-                MessageBox.Show("С обновлением БД проблемы");
+                sb.AppendLine("Не введен производитель!");
             }
 
-            ShowManuf();
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(sb.ToString(), "Внимание");
+            }
+            else
+            {
+                manufacturersWork = Helper.DB.Manufacturers.FirstOrDefault(x => x.ManufacturerName == txtManufName.Text);
+                if (manufacturersWork == null)
+                {
+                    txtManufacturerId.Text = manufacturersWork.MedicineManufacturerId.ToString();
+                    manufacturersWork.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
+                    manufacturersWork.ManufacturerName = txtManufName.Text;
+
+                    try
+                    {
+                        Helper.DB.Manufacturers.Add(manufacturersWork);
+                        Helper.DB.SaveChanges();
+                        MessageBox.Show("БД успешно обновлена");
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("С обновлением БД проблемы");
+                    }
+
+                    ShowManuf();
+                }
+                else
+                {
+                    MessageBox.Show("Производитель с таким названием уже есть в БД!");
+                }
+            }
         }
 
         /// <summary>
@@ -534,30 +701,78 @@ namespace OOO_ChemistShop.View
             }
             else
             {
-                int ID = int.Parse(txtManufacturerId.Text);
+                StringBuilder sb = new StringBuilder();
 
-                var item = Helper.DB.Manufacturers.SingleOrDefault(x => x.MedicineManufacturerId == ID);
-
-                if (item != null)
+                if (CbManufCountry.SelectedIndex == -1)
                 {
-                    try
+                    sb.AppendLine("Не выбрана страна производителя!");
+                }
+                if (String.IsNullOrEmpty(txtManufName.Text))
+                {
+                    sb.AppendLine("Не введен производитель!");
+                }
+
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString(), "Внимание");
+                }
+                else
+                {
+                    int ID = int.Parse(txtManufacturerId.Text);
+
+                    var item = Helper.DB.Manufacturers.SingleOrDefault(x => x.MedicineManufacturerId == ID);
+
+                    if (item != null)
                     {
-                        manufacturersWork.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
-                        manufacturersWork.ManufacturerName = txtManufName.Text.Trim();
-                        Helper.DB.Entry(item).State = EntityState.Modified;
-                        Helper.DB.SaveChanges();
-                        DataGridManufacturers.UnselectAllCells();
-                        MessageBox.Show("БД успешно обновлена");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("С обновлением БД проблемы");
+                        manufacturersWork = Helper.DB.Manufacturers.FirstOrDefault(x => x.ManufacturerName == txtManufName.Text);
+                        if (manufacturersWork == null)
+                        {
+                            item.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
+                            item.ManufacturerName = txtManufName.Text.Trim();
+                            try
+                            {
+                                Helper.DB.Entry(item).State = EntityState.Modified;
+                                Helper.DB.SaveChanges();
+                                DataGridManufacturers.UnselectAllCells();
+                                MessageBox.Show("БД успешно обновлена");
+                            }
+                            catch
+                            {
+                                MessageBox.Show("С обновлением БД проблемы");
+                            }
+                        }
+                        else
+                        {
+                            manufacturersWork = Helper.DB.Manufacturers.FirstOrDefault(x => x.ManufacturerCountryId != (int)CbManufCountry.SelectedValue);
+                            if (manufacturersWork != null)
+                            {
+                                item.ManufacturerName = Helper.DB.Manufacturers.Where(x => x.MedicineManufacturerId == ID).Select(x => x.ManufacturerName).FirstOrDefault();
+                                item.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
+                                try
+                                {
+                                    Helper.DB.Entry(item).State = EntityState.Modified;
+                                    Helper.DB.SaveChanges();
+                                    DataGridManufacturers.UnselectAllCells();
+                                    MessageBox.Show("БД успешно обновлена");
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("С обновлением БД проблемы");
+                                }
+                            }
+
+                            else
+                            {
+                                MessageBox.Show("Производитель с таким названием уже есть в БД!");
+                            }
+                        }
+
                     }
 
                 }
-
             }
             ShowManuf();
+           
         }
 
 

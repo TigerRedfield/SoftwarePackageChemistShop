@@ -70,9 +70,9 @@
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Логин пользователя" Style="{StaticResource TextFormatDB}" />
                 <TextBlock Grid.Row="0" Grid.Column="3" Text="Пароль пользователя" Style="{StaticResource TextFormatDB}" />
                 <ComboBox x:Name="CbRoleUser" SelectedValue="{Binding SelectedItem.UserRoleId, ElementName=DataGridUsers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbFormat}" Grid.Row="1" Grid.Column="0" Margin="8" />
-                <TextBox x:Name="txtFioUser" Text="{Binding SelectedItem.UserFullName, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="1" Margin="8" />
-                <TextBox x:Name="txtLoginUser" Text="{Binding SelectedItem.UserLogin, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="2" Margin="8" />
-                <TextBox x:Name="txtPasswordUser" Text="{Binding SelectedItem.UserPassword, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="3" Margin="8" />
+                <TextBox x:Name="txtFioUser" Text="{Binding SelectedItem.UserFullName, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="8" />
+                <TextBox x:Name="txtLoginUser" Text="{Binding SelectedItem.UserLogin, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="8" />
+                <TextBox x:Name="txtPasswordUser" Text="{Binding SelectedItem.UserPassword, ElementName=DataGridUsers}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="3" Margin="8" />
             </Grid>
             <StackPanel x:Name="Users" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" Grid.Row="2">
                 <Button x:Name="AcceptUser" Content="✔" FontSize="30" Background="Green" Foreground="White" Height="64" Width="65" HorizontalAlignment="Left" Margin="15,0" Click="AcceptUser_Click" ToolTip="Добавить"/>

@@ -96,7 +96,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес пункта выдачи" Style="{StaticResource TextFormatDB}"/>
-                        <TextBox x:Name="txtPointName" Text="{Binding SelectedItem.PointAddress, ElementName=DataGridPoints}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Margin="8 4" />
+                        <TextBox x:Name="txtPointName" Text="{Binding SelectedItem.PointAddress, ElementName=DataGridPoints}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Margin="8 4" />
                     </Grid>
 
 
@@ -120,7 +120,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Название категории" Style="{StaticResource TextFormatDB}"/>
-                        <TextBox x:Name="txtCatName" Text="{Binding SelectedItem.CategoryName, ElementName=DataGridCateg}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Margin="8 4" />
+                        <TextBox x:Name="txtCatName" Text="{Binding SelectedItem.CategoryName, ElementName=DataGridCateg}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Margin="8 4" />
                     </Grid>
 
 
@@ -144,7 +144,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Название страны" Style="{StaticResource TextFormatDB}"/>
-                        <TextBox x:Name="txtCountryName" Text="{Binding SelectedItem.ManufacturerCountryName, ElementName=DataGridCountries}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Margin="8 4" />
+                        <TextBox x:Name="txtCountryName" Text="{Binding SelectedItem.ManufacturerCountryName, ElementName=DataGridCountries}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Margin="8 4" />
                     </Grid>
 
 
@@ -199,7 +199,7 @@
                             
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Название производителя" Style="{StaticResource TextFormatDB}" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Страна производителя" Style="{StaticResource TextFormatDB}" />
-                        <TextBox x:Name="txtManufName" Text="{Binding SelectedItem.ManufacturerName, ElementName=DataGridManufacturers}" Style="{StaticResource TextBoxFormat}" Grid.Row="1" Grid.Column="1" Margin="8 4" />
+                        <TextBox x:Name="txtManufName" Text="{Binding SelectedItem.ManufacturerName, ElementName=DataGridManufacturers}" Style="{StaticResource TextBoxFormat}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="8 4" />
                         <ComboBox x:Name="CbManufCountry" SelectedValue="{Binding SelectedItem.ManufacturerCountryId, ElementName=DataGridManufacturers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CbFormat}" Grid.Row="1" Grid.Column="0" Margin="8 4" />
                         </Grid>
 

@@ -1,4 +1,5 @@
 ﻿using OOO_ChemistShop.Classes;
+using OOO_ChemistShop.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -59,6 +60,8 @@ namespace OOO_ChemistShop.View
             txtFioUser.Text = "";
             txtPasswordUser.Text = "";
             txtLoginUser.Text = "";
+
+            DataGridUsers.UnselectAllCells();
         }
 
         /// <summary>
@@ -147,32 +150,96 @@ namespace OOO_ChemistShop.View
             }
             else
             {
-                int ID = int.Parse(txtUserId.Text);
+                StringBuilder sb = new StringBuilder();
 
-                var item = Helper.DB.Users.SingleOrDefault(x => x.UserId == ID);
-
-                if (item != null)
+                if (CbRoleUser.SelectedIndex == -1)
                 {
-                    try
+                    sb.AppendLine("Не выбрана роль пользователя!");
+                }
+
+                if (String.IsNullOrEmpty(txtFioUser.Text))
+                {
+                    sb.AppendLine("Не введено ФИО пользователя!");
+                }
+
+                if (String.IsNullOrEmpty(txtLoginUser.Text))
+                {
+                    sb.AppendLine("Не введён логин пользователя!");
+                }
+
+                if (String.IsNullOrEmpty(txtPasswordUser.Text))
+                {
+                    sb.AppendLine("Не введен пароль пользователя!");
+                }
+
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString(), "Внимание");
+                }
+                else
+                {
+                    int ID = int.Parse(txtUserId.Text);
+
+                    var item = Helper.DB.Users.SingleOrDefault(x => x.UserId == ID);
+
+                    if (item != null)
                     {
-                        workUsers.UserRoleId = (int)CbRoleUser.SelectedValue;
-                        workUsers.UserFullName = txtFioUser.Text;
-                        workUsers.UserLogin = txtLoginUser.Text;
-                        workUsers.UserPassword = txtPasswordUser.Text;
-                        Helper.DB.Entry(item).State = EntityState.Modified;
-                        Helper.DB.SaveChanges();
-                        DataGridUsers.UnselectAllCells();
-                        MessageBox.Show("БД успешно обновлена");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("С обновлением БД проблемы");
+
+                        workUsers = Helper.DB.Users.FirstOrDefault(x => x.UserLogin == txtLoginUser.Text);
+
+                        if (workUsers == null)
+                        {
+                            item.UserRoleId = (int)CbRoleUser.SelectedValue;
+                            item.UserFullName = txtFioUser.Text;
+                            item.UserLogin = txtLoginUser.Text;
+                            item.UserPassword = txtPasswordUser.Text;
+                            try
+                            {
+                                Helper.DB.Entry(item).State = EntityState.Modified;
+                                Helper.DB.SaveChanges();
+                                DataGridUsers.UnselectAllCells();
+                                MessageBox.Show("БД успешно обновлена");
+                            }
+                            catch
+                            {
+                                MessageBox.Show("С обновлением БД проблемы");
+                            }
+                        }
+
+                        else
+                        {
+                            workUsers = Helper.DB.Users.FirstOrDefault(x => x.UserRoleId != (int)CbRoleUser.SelectedValue);
+                            if (workUsers != null)
+                            {
+                                item.UserFullName = Helper.DB.Users.Where(x => x.UserId == ID).Select(x => x.UserFullName).FirstOrDefault();
+                                item.UserLogin = Helper.DB.Users.Where(x => x.UserId == ID).Select(x => x.UserLogin).FirstOrDefault();
+                                item.UserPassword = Helper.DB.Users.Where(x => x.UserId == ID).Select(x => x.UserPassword).FirstOrDefault();
+                                item.UserRoleId = (int)CbRoleUser.SelectedValue;
+                                try
+                                {
+                                    Helper.DB.Entry(item).State = EntityState.Modified;
+                                    Helper.DB.SaveChanges();
+                                    DataGridUsers.UnselectAllCells();
+                                    MessageBox.Show("БД успешно обновлена");
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("С обновлением БД проблемы");
+                                }
+                            }
+                            
+                            else
+                            {
+                                MessageBox.Show("Пользователь с таким логином уже есть в БД!");
+                            }
+                        }
+
                     }
 
                 }
-
             }
             ShowUsers();
+     
         }
 
 
@@ -183,25 +250,64 @@ namespace OOO_ChemistShop.View
         /// <param name="e"></param>
         private void AcceptUser_Click(object sender, RoutedEventArgs e)
         {
-            txtUserId.Text = workUsers.UserId.ToString();
-            workUsers.UserRoleId = (int)CbRoleUser.SelectedValue;
-            workUsers.UserFullName = txtFioUser.Text;
-            workUsers.UserLogin = txtLoginUser.Text;
-            workUsers.UserPassword = txtPasswordUser.Text;
+            StringBuilder sb = new StringBuilder();
 
-            try
+            if (CbRoleUser.SelectedIndex == -1)
             {
-                Helper.DB.Users.Add(workUsers);
-                Helper.DB.SaveChanges();
-                MessageBox.Show("БД успешно обновлена");
-
-            }
-            catch
-            {
-                MessageBox.Show("С обновлением БД проблемы");
+                sb.AppendLine("Не выбрана роль пользователя!");
             }
 
-            ShowUsers();
+            if (String.IsNullOrEmpty(txtFioUser.Text))
+            {
+                sb.AppendLine("Не введено ФИО пользователя!");
+            }
+
+            if (String.IsNullOrEmpty(txtLoginUser.Text))
+            {
+                sb.AppendLine("Не введён логин пользователя!");
+            }
+
+            if (String.IsNullOrEmpty(txtPasswordUser.Text))
+            {
+                sb.AppendLine("Не введен пароль пользователя!");
+            }
+
+            if (sb.Length > 0)
+            {
+                MessageBox.Show(sb.ToString(), "Внимание");
+            }
+            else
+            {
+                workUsers = Helper.DB.Users.FirstOrDefault(x => x.UserLogin == txtLoginUser.Text);
+
+                if (workUsers == null)
+                {
+                    workUsers = new Users();
+                    txtUserId.Text = workUsers.UserId.ToString();
+                    workUsers.UserRoleId = (int)CbRoleUser.SelectedValue;
+                    workUsers.UserFullName = txtFioUser.Text;
+                    workUsers.UserLogin = txtLoginUser.Text;
+                    workUsers.UserPassword = txtPasswordUser.Text;
+
+                    try
+                    {
+                        Helper.DB.Users.Add(workUsers);
+                        Helper.DB.SaveChanges();
+                        MessageBox.Show("БД успешно обновлена");
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("С обновлением БД проблемы");
+                    }
+                    ShowUsers();
+                }
+                else
+                {
+                    MessageBox.Show("Пользователь с таким логином уже есть в БД!");
+                }
+            }
+
         }
     }
 }

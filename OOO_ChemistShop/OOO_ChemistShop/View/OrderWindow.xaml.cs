@@ -2,6 +2,7 @@
 using OOO_ChemistShop.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -179,7 +180,7 @@ namespace OOO_ChemistShop.View
                     wordPar = wordDoc.Paragraphs.Add();
                     wordRange = wordPar.Range;
                     //Добавить логитип-картинку
-                    wordShape = wordDoc.InlineShapes.AddPicture("C:/Users/Tiger/Desktop/Project_UP403/OOO_ChemistShop/OOO_ChemistShop/Resources/medicine.png",
+                    wordShape = wordDoc.InlineShapes.AddPicture(App.pathExe + "/Logo/medicine.png",
                                                                                Type.Missing, Type.Missing, wordRange);
 
                     wordShape.Width = 80;
@@ -208,7 +209,7 @@ namespace OOO_ChemistShop.View
                     wordPar.set_Style("Заголовок 1");               //Стиль, взятый из Word
                     wordRange.Font.Color = Word.WdColor.wdColorBlue;
                     wordRange.Font.Size = 20;                                                        //Текст первого абзаца – заголовка документа
-                    wordRange.Text = "\nДата оформления заказа: " + DateTime.Now.ToLongDateString() + "\nФИО клиента, оформившего заказ: " + tbFIO.Text.ToString();
+                    wordRange.Text = "\nДата оформления заказа: " + DateTime.Now.ToString("D", CultureInfo.GetCultureInfo("ru-RU")) + "\nФИО клиента, оформившего заказ: " + tbFIO.Text.ToString();
                     wordRange.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
 
 
