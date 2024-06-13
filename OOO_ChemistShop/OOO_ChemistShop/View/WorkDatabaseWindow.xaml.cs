@@ -133,6 +133,8 @@ namespace OOO_ChemistShop.View
                 categoryWork = Helper.DB.Categories.FirstOrDefault(x => x.CategoryName == txtCatName.Text);
                 if (categoryWork == null)
                 {
+                    categoryWork = new Model.Categories();
+
                     txtCatId.Text = categoryWork.CategoryId.ToString();
                     categoryWork.CategoryName = txtCatName.Text;
 
@@ -308,6 +310,7 @@ namespace OOO_ChemistShop.View
                 pointWork = Helper.DB.Point.FirstOrDefault(x => x.PointAddress == txtCatName.Text);
                 if (pointWork == null)
                 {
+                    pointWork = new Model.Point();
                     txtPointId.Text = pointWork.PointId.ToString();
                     pointWork.PointAddress = txtPointName.Text;
 
@@ -482,6 +485,8 @@ namespace OOO_ChemistShop.View
                 countriesWork = Helper.DB.ManufacturerCountry.FirstOrDefault(x => x.ManufacturerCountryName == txtCountryName.Text);
                 if (countriesWork == null)
                 {
+                    countriesWork = new ManufacturerCountry();
+
                     txtCountryId.Text = countriesWork.ManufacturerCountryId.ToString();
                     countriesWork.ManufacturerCountryName = txtCountryName.Text;
 
@@ -662,6 +667,7 @@ namespace OOO_ChemistShop.View
                 manufacturersWork = Helper.DB.Manufacturers.FirstOrDefault(x => x.ManufacturerName == txtManufName.Text);
                 if (manufacturersWork == null)
                 {
+                    manufacturersWork = new Manufacturers();
                     txtManufacturerId.Text = manufacturersWork.MedicineManufacturerId.ToString();
                     manufacturersWork.ManufacturerCountryId = (int)CbManufCountry.SelectedValue;
                     manufacturersWork.ManufacturerName = txtManufName.Text;

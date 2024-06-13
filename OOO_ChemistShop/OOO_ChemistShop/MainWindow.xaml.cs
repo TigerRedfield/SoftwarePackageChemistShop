@@ -201,6 +201,10 @@ namespace OOO_ChemistShop
         /// </summary>
         private void GoCatalog()
         {
+            TbLoginAutho.Text = "";
+            textboxpassword.Password = "";
+            TbPasswordAutho.Text = "";
+            textboxcaptcha.Text = "";
             View.CatalogWindow catalog = new View.CatalogWindow();
             this.Hide();
             catalog.ShowDialog();

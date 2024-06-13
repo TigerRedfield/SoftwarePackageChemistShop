@@ -3,6 +3,7 @@ using OOO_ChemistShop.Classes;
 using OOO_ChemistShop.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace OOO_ChemistShop.View
         string filePath;			//Путь к фото из диалога
         //Путь к папке с фотографиями
         string pathPhoto = System.IO.Directory.GetCurrentDirectory() + @"\Images\";
-        string pathWebPhoto = @"F:\дипломы\SoftwarePackageChemistShop-master\OOO_ChemistShopWeb\OOO_ChemistShopWeb\Images\";
+        string pathWebPhoto = @"C:\Users\Tiger\Desktop\SoftwarePackageChemistShop-master\OOO_ChemistShopWeb\OOO_ChemistShopWeb\Images\";
         Model.Medicine medicine;	//Товар, с которым сейчас работают
 
         public EditCatalogWindow()
